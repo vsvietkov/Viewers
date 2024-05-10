@@ -146,17 +146,56 @@ const toolbarButtons = [
     },
   },
   {
-    id: 'TagBrowser',
-    uiType: 'ohif.radioGroup',
+    id: 'MoreTools',
+    uiType: 'ohif.splitButton',
     props: {
-      icon: 'dicom-tag-browser',
-      label: 'Dicom Tag Browser',
-      commands: [
-        {
-          commandName: 'openDICOMTagViewer',
-        },
+      groupId: 'MoreTools',
+      evaluate: 'evaluate.group.promoteToPrimaryIfCornerstoneToolNotActiveInTheList',
+      primary: ToolbarService.createButton({
+        id: 'Reset',
+        icon: 'tool-reset',
+        label: 'Reset View',
+        tooltip: 'Reset View',
+        commands: [
+          {
+            commandName: 'resetViewport',
+            context: 'MICROSCOPY',
+          },
+        ],
+        evaluate: 'evaluate.action',
+      }),
+      secondary: {
+        icon: 'chevron-down',
+        tooltip: 'More Tools',
+      },
+      items: [
+        ToolbarService.createButton({
+          id: 'Reset',
+          icon: 'tool-reset',
+          label: 'Reset View',
+          tooltip: 'Reset View',
+          commands: [
+            {
+              commandName: 'resetViewport',
+              context: 'MICROSCOPY',
+            },
+          ],
+          evaluate: 'evaluate.action',
+        }),
+        ToolbarService.createButton({
+          id: 'RotateRight',
+          icon: 'tool-rotate-right',
+          label: 'Rotate Right',
+          tooltip: 'Rotate Right +90',
+          commands: [
+            {
+              commandName: 'rotateViewportCW',
+              context: 'MICROSCOPY',
+            },
+          ],
+          evaluate: 'evaluate.action',
+        }),
       ],
-      evaluate: 'evaluate.action',
     },
   },
 ];
