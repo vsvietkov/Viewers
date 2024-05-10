@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ExtensionManager, CommandsManager, DicomMetadataStore } from '@ohif/core';
-import { MeasurementTable } from '@ohif/ui';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { ActionButtons, MeasurementTable } from "@ohif/ui";
+import { useTranslation, withTranslation, WithTranslation } from "react-i18next";
 import { EVENTS as MicroscopyEvents } from '../../services/MicroscopyService';
 import dcmjs from 'dcmjs';
 import callInputDialog from '../../utils/callInputDialog';
@@ -66,6 +66,7 @@ interface IMicroscopyPanelProps extends WithTranslation {
  */
 function MicroscopyPanel(props: IMicroscopyPanelProps) {
   const { microscopyService } = props.servicesManager.services;
+  const { t } = useTranslation('MeasurementTable');
 
   const [studyInstanceUID, setStudyInstanceUID] = useState(null as string | null);
   const [roiAnnotations, setRoiAnnotations] = useState([] as any[]);
@@ -293,6 +294,7 @@ function MicroscopyPanel(props: IMicroscopyPanelProps) {
   // Convert ROI annotations managed by microscopyService into our
   // own format for display
   const data = roiAnnotations.map((roiAnnotation, index) => {
+
     const label = roiAnnotation.getDetailedLabel();
     const area = roiAnnotation.getArea();
     const length = roiAnnotation.getLength();
@@ -326,6 +328,8 @@ function MicroscopyPanel(props: IMicroscopyPanelProps) {
     };
   });
 
+  const disabled = data.length === 0;
+
   return (
     <>
       <div
@@ -341,10 +345,22 @@ function MicroscopyPanel(props: IMicroscopyPanelProps) {
           onDelete={onMeasurementDeleteHandler}
         />
       </div>
+      <div className="flex justify-center">
+        <ActionButtons
+          t={t}
+          actions={[
+            {
+              label: 'Create Report',
+              onClick: promptSave,
+              disabled,
+            },
+          ]}
+        />
+      </div>
     </>
   );
 }
 
-const connectedMicroscopyPanel = withTranslation(['MicroscopyTable', 'Common'])(MicroscopyPanel);
+const connectedMicroscopyPanel = withTranslation(['MicroscopyTable', 'Common', 'MeasurementTable'])(MicroscopyPanel);
 
 export default connectedMicroscopyPanel;
