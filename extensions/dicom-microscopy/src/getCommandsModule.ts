@@ -75,6 +75,7 @@ export default function getCommandsModule({
         if ('line' === toolName) {
           options.minPoints = 2;
           options.maxPoints = 2;
+          options.markup = 'measurement';
         } else if ('point' === toolName) {
           delete options.styleOptions;
           delete options.vertexEnabled;
