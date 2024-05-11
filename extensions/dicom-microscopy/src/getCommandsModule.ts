@@ -143,6 +143,10 @@ export default function getCommandsModule({
     toggleAnnotations: () => {
       microscopyService.toggleROIsVisibility();
     },
+    rotateViewportCW: () => {
+      const { activeViewportId } = viewportGridService.getState();
+      microscopyService.rotateMap(activeViewportId, 90);
+    },
   };
 
   const definitions = {
@@ -160,6 +164,9 @@ export default function getCommandsModule({
     },
     toggleAnnotations: {
       commandFn: actions.toggleAnnotations,
+    },
+    rotateViewportCW: {
+      commandFn: actions.rotateViewportCW,
     },
   };
 

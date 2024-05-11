@@ -166,13 +166,13 @@ const toolbarButtons = [
       groupId: 'MoreTools',
       evaluate: 'evaluate.group.promoteToPrimaryIfCornerstoneToolNotActiveInTheList',
       primary: ToolbarService.createButton({
-        id: 'Reset',
-        icon: 'tool-reset',
-        label: 'Reset View',
-        tooltip: 'Reset View',
+        id: 'RotateRight',
+        icon: 'tool-rotate-right',
+        label: 'Rotate Right',
+        tooltip: 'Rotate Right +90',
         commands: [
           {
-            commandName: 'resetViewport',
+            commandName: 'rotateViewportCW',
             context: 'MICROSCOPY',
           },
         ],
@@ -183,19 +183,6 @@ const toolbarButtons = [
         tooltip: 'More Tools',
       },
       items: [
-        ToolbarService.createButton({
-          id: 'Reset',
-          icon: 'tool-reset',
-          label: 'Reset View',
-          tooltip: 'Reset View',
-          commands: [
-            {
-              commandName: 'resetViewport',
-              context: 'MICROSCOPY',
-            },
-          ],
-          evaluate: 'evaluate.action',
-        }),
         ToolbarService.createButton({
           id: 'RotateRight',
           icon: 'tool-rotate-right',

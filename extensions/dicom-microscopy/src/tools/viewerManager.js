@@ -266,6 +266,10 @@ class ViewerManager extends PubSubService {
     this.viewer.toggleOverviewMap();
   }
 
+  rotateMap(angles) {
+    this.viewer.rotateMap(angles);
+  }
+
   /**
    * Activates the viewer default interactions
    * @returns {void}
