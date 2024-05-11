@@ -59,7 +59,7 @@ export default function getCommandsModule({
         },
       ];
       if (
-        ['line', 'box', 'circle', 'point', 'polygon', 'freehandpolygon', 'freehandline'].indexOf(
+        ['line', 'box', 'circle', 'point', 'polygon', 'freehandpolygon', 'freehandline', 'arrow'].indexOf(
           toolName
         ) >= 0
       ) {
