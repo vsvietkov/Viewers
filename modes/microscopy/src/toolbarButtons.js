@@ -212,6 +212,20 @@ const toolbarButtons = [
       ],
     },
   },
+  {
+    id: 'TagBrowser',
+    uiType: 'ohif.radioGroup',
+    props: {
+      icon: 'dicom-tag-browser',
+      label: 'Dicom Tag Browser',
+      commands: [
+        {
+          commandName: 'openDICOMTagViewer',
+        },
+      ],
+      evaluate: 'evaluate.action',
+    },
+  },
 ];
 
 export default toolbarButtons;
