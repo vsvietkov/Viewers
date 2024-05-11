@@ -126,6 +126,20 @@ const toolbarButtons = [
           ],
           evaluate: 'evaluate.microscopyTool',
         }),
+        ToolbarService.createButton({
+          id: 'arrow',
+          icon: 'tool-annotate',
+          label: 'Annotation',
+          tooltip: 'Arrow Annotate',
+          commands: [
+            {
+              commandName: 'setToolActive',
+              commandOptions: { toolName: 'arrow' },
+              context: 'MICROSCOPY',
+            },
+          ],
+          evaluate: 'evaluate.microscopyTool',
+        }),
       ],
     },
   },
