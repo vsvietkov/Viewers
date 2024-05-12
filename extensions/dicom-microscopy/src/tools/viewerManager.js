@@ -270,6 +270,10 @@ class ViewerManager extends PubSubService {
     this.viewer.rotateMap(angles);
   }
 
+  flipMapHorizontal() {
+    this.viewer.flipMapHorizontal();
+  }
+
   /**
    * Activates the viewer default interactions
    * @returns {void}

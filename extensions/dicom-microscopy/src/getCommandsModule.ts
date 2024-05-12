@@ -147,6 +147,10 @@ export default function getCommandsModule({
       const { activeViewportId } = viewportGridService.getState();
       microscopyService.rotateMap(activeViewportId, 90);
     },
+    flipViewportHorizontal: () => {
+      const { activeViewportId } = viewportGridService.getState();
+      microscopyService.flipMapHorizontal(activeViewportId);
+    },
   };
 
   const definitions = {
@@ -167,6 +171,9 @@ export default function getCommandsModule({
     },
     rotateViewportCW: {
       commandFn: actions.rotateViewportCW,
+    },
+    flipViewportHorizontal: {
+      commandFn: actions.flipViewportHorizontal,
     },
   };
 

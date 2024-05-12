@@ -196,6 +196,19 @@ const toolbarButtons = [
           ],
           evaluate: 'evaluate.action',
         }),
+        ToolbarService.createButton({
+          id: 'FlipHorizontal',
+          icon: 'tool-flip-horizontal',
+          label: 'Flip Horizontally',
+          tooltip: 'Flip Horizontally',
+          commands: [
+            {
+              commandName: 'flipViewportHorizontal',
+              context: 'MICROSCOPY',
+            },
+          ],
+          evaluate: 'evaluate.action',
+        }),
       ],
     },
   },
