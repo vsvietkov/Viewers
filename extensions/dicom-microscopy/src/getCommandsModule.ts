@@ -1,6 +1,7 @@
 import { CommandsManager, ExtensionManager } from '@ohif/core';
 import styles from './utils/styles';
 import callInputDialog from './utils/callInputDialog';
+import MicroscopyViewportDownloadForm from "./components/MicroscopyViewportDownloadForm/MicroscopyViewportDownloadForm";
 
 export default function getCommandsModule({
   servicesManager,
@@ -151,6 +152,20 @@ export default function getCommandsModule({
       const { activeViewportId } = viewportGridService.getState();
       microscopyService.flipMapHorizontal(activeViewportId);
     },
+    showDownloadViewportModal: () => {
+      const { uiModalService } = servicesManager.services;
+
+      if (uiModalService) {
+        uiModalService.show({
+          content: MicroscopyViewportDownloadForm,
+          title: 'Download High Quality Image',
+          contentProps: {
+            onClose: uiModalService.hide,
+          },
+          containerDimensions: 'w-[50%] max-w-[700px]',
+        });
+      }
+    },
   };
 
   const definitions = {
@@ -174,6 +189,9 @@ export default function getCommandsModule({
     },
     flipViewportHorizontal: {
       commandFn: actions.flipViewportHorizontal,
+    },
+    showDownloadViewportModal: {
+      commandFn: actions.showDownloadViewportModal,
     },
   };
 

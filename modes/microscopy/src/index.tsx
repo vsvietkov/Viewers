@@ -54,6 +54,7 @@ function modeFactory({ modeConfiguration }) {
       toolbarService.createButtonSection('primary', [
         'MeasurementTools',
         'dragPan',
+        'Capture',
         'MoreTools',
         'TagBrowser',
       ]);

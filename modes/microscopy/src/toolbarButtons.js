@@ -160,6 +160,21 @@ const toolbarButtons = [
     },
   },
   {
+    id: 'Capture',
+    uiType: 'ohif.radioGroup',
+    props: {
+      icon: 'tool-capture',
+      label: 'Capture',
+      commands: [
+        {
+          commandName: 'showDownloadViewportModal',
+          context: 'MICROSCOPY',
+        },
+      ],
+      evaluate: 'evaluate.action',
+    },
+  },
+  {
     id: 'MoreTools',
     uiType: 'ohif.splitButton',
     props: {
