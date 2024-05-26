@@ -224,6 +224,20 @@ const toolbarButtons = [
           ],
           evaluate: 'evaluate.action',
         }),
+        ToolbarService.createButton({
+          id: 'windowLevel',
+          icon: 'tool-window-level',
+          label: 'Window Level',
+          tooltip: 'Window Level',
+          commands: [
+            {
+              commandName: 'setToolActive',
+              commandOptions: { toolName: 'windowLevel' },
+              context: 'MICROSCOPY',
+            },
+          ],
+          evaluate: 'evaluate.microscopyTool',
+        }),
       ],
     },
   },

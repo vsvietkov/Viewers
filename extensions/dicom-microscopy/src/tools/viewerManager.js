@@ -330,6 +330,8 @@ class ViewerManager extends PubSubService {
       dragZoom: activate =>
         activate ? 'activateDragZoomInteraction' : 'deactivateDragZoomInteraction',
       select: activate => (activate ? 'activateSelectInteraction' : 'deactivateSelectInteraction'),
+      windowLevel: activate =>
+        activate ? 'activateWindowLevelInteraction' : 'deactivateWindowLevelInteraction',
     };
 
     const availableInteractionsName = Object.keys(interactionsMap);
