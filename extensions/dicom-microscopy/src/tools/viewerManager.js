@@ -271,7 +271,7 @@ class ViewerManager extends PubSubService {
   }
 
   flipMapHorizontal() {
-    this.viewer.flipMapHorizontal();
+    this.viewer.flipHorizontal();
   }
 
   /**

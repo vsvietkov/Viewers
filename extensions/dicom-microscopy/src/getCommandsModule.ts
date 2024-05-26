@@ -81,7 +81,8 @@ export default function getCommandsModule({
           options.minPoints = 2;
           options.maxPoints = 2;
           options.marker = 'arrow';
-          options.markup = 'measurement'; // TODO: Used for text display now. Investigate other ways or polish this.
+          // TODO: Investigate how to add the text (measurement) only after form submit
+          // P.S.: after the zoom/resolution is fixed
           options.drawEndCallback = (callback: (value: string, action: string) => void) => {
             callInputDialog({
               uiDialogService,
