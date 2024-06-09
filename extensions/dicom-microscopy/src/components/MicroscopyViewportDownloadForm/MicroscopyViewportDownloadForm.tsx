@@ -1,7 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, ButtonEnums, Input, Typography, InputLabelWrapper, Select } from '@ohif/ui';
+import {
+  Button,
+  ButtonEnums,
+  Input,
+  Typography,
+  InputLabelWrapper,
+  Select,
+  CheckBox,
+} from '@ohif/ui';
 import { useTranslation } from 'react-i18next';
+import html2canvas from 'html2canvas';
 
 const DEFAULT_FILENAME = 'image';
 const FILE_TYPE_OPTIONS = [
@@ -15,10 +24,17 @@ const FILE_TYPE_OPTIONS = [
   },
 ];
 
-const MicroscopyViewportDownloadForm = ({
-  onClose,
-}) => {
+const MicroscopyViewportDownloadForm = ({ onClose }) => {
   const { t } = useTranslation('Modals');
+
+  const canvases = document.querySelectorAll(
+    `.DicomMicroscopyViewer canvas`
+  ) as NodeListOf<HTMLCanvasElement>;
+  const [showAnnotations, setShowAnnotations] = useState(canvases.length > 1);
+  const previewRef = useRef(null);
+  // Store the rendered preview with annotations to avoid time-consuming re-rendering
+  const previewCanvasWithAnnotations = useRef(null);
+
   const [filename, setFilename] = useState(DEFAULT_FILENAME);
   const [fileType, setFileType] = useState(['jpg']);
   const [error, setError] = useState({ filename: false });
@@ -26,6 +42,45 @@ const MicroscopyViewportDownloadForm = ({
   const hasError = Object.values(error).includes(true);
   const error_messages = { filename: 'The file name cannot be empty.' };
 
+  // Handle the preview canvas rendering
+  useEffect(() => {
+    previewRef.current.height = previewRef.current.width; // Make the preview square
+    const context = previewRef.current.getContext('2d');
+
+    const updateCanvas = (sourceCanvas: HTMLCanvasElement) => {
+      context.clearRect(0, 0, previewRef.current.width, previewRef.current.height);
+      context.drawImage(
+        sourceCanvas,
+        0,
+        0,
+        sourceCanvas.width,
+        sourceCanvas.height,
+        0,
+        0,
+        previewRef.current.width,
+        previewRef.current.height
+      );
+    };
+
+    if (showAnnotations) {
+      if (!previewCanvasWithAnnotations.current) {
+        // Generate the preview canvas with annotations
+        html2canvas(document.querySelector(`.DicomMicroscopyViewer`)).then(sourceCanvas => {
+          previewCanvasWithAnnotations.current = sourceCanvas;
+          updateCanvas(sourceCanvas);
+        });
+      } else {
+        // Show already generated preview canvas with annotations
+        updateCanvas(previewCanvasWithAnnotations.current);
+      }
+    } else {
+      // Show the original picture canvas
+      const sourceCanvas = canvases[0] as HTMLCanvasElement;
+      updateCanvas(sourceCanvas);
+    }
+  }, [canvases, showAnnotations]);
+
+  // Handle the filename validation
   useEffect(() => {
     const hasError = {
       filename: !filename,
@@ -40,10 +95,7 @@ const MicroscopyViewportDownloadForm = ({
     }
 
     return (
-      <Typography
-        className="mt-2 pl-1"
-        color="error"
-      >
+      <Typography className="mt-2 pl-1" color="error">
         {error_messages[errorType]}
       </Typography>
     );
@@ -51,12 +103,23 @@ const MicroscopyViewportDownloadForm = ({
 
   const downloadBlob = () => {
     const file = `${filename}.${fileType[0]}`;
-    const canvas = document.querySelector(`.DicomMicroscopyViewer canvas`) as HTMLCanvasElement;
 
-    const link = document.createElement('a');
-    link.download = file;
-    link.href = canvas.toDataURL(fileType[0], 1.0);
-    link.click();
+    const getDownloadableLink = (canvas: HTMLCanvasElement): HTMLElement => {
+      const link = document.createElement('a');
+      link.download = file;
+      link.href = canvas.toDataURL(fileType[0], 1.0);
+      return link;
+    };
+
+    if (showAnnotations) {
+      html2canvas(document.querySelector(`.DicomMicroscopyViewer`)).then(canvas => {
+        getDownloadableLink(canvas).click();
+        onClose();
+      });
+    } else {
+      getDownloadableLink(canvases[0]).click();
+      onClose();
+    }
   };
 
   return (
@@ -104,12 +167,34 @@ const MicroscopyViewportDownloadForm = ({
         </div>
       </div>
 
-      <div className="mt-4 flex justify-end">
-        <Button
-          name="cancel"
-          type={ButtonEnums.type.secondary}
-          onClick={onClose}
+      <CheckBox
+        checked={showAnnotations}
+        onChange={e => {
+          if (canvases.length > 1) {
+            // Checkbox component has no disabled state
+            // So make changes only if there are annotations present
+            setShowAnnotations(e);
+          }
+        }}
+        label={t('Show Annotations')}
+      />
+
+      <div className="mt-4">
+        <div
+          className="bg-secondary-dark border-secondary-primary w-max-content min-w-full rounded p-4"
+          data-cy="image-preview"
         >
+          <Typography variant="h5">{t('Image preview')}</Typography>
+          <canvas
+            className="w-50 mx-auto my-2"
+            ref={previewRef}
+            style={{ border: '1px solid black' }}
+          />
+        </div>
+      </div>
+
+      <div className="mt-4 flex justify-end">
+        <Button name="cancel" type={ButtonEnums.type.secondary} onClick={onClose}>
           {t('Cancel')}
         </Button>
         <Button
@@ -117,7 +202,7 @@ const MicroscopyViewportDownloadForm = ({
           disabled={hasError}
           onClick={downloadBlob}
           type={ButtonEnums.type.primary}
-          name={'download'}
+          name="download"
         >
           {t('Download')}
         </Button>
