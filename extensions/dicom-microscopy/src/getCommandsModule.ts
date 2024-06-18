@@ -76,13 +76,12 @@ export default function getCommandsModule({
         if ('line' === toolName) {
           options.minPoints = 2;
           options.maxPoints = 2;
-          options.markup = 'measurement';
+          options.markup = 'measurement'; // calculate and show length or area
         } else if ('arrow' === toolName) {
           options.minPoints = 2;
           options.maxPoints = 2;
-          options.marker = 'arrow';
-          // TODO: Investigate how to add the text (measurement) only after form submit
-          // P.S.: after the zoom/resolution is fixed
+          options.marker = 'arrow'; // draw as arrow
+          options.markup = 'text'; // add text label to arrow
           options.drawEndCallback = (callback: (value: string, action: string) => void) => {
             callInputDialog({
               uiDialogService,
