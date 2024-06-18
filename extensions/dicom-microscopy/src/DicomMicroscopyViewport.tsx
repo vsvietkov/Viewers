@@ -245,7 +245,7 @@ class DicomMicroscopyViewport extends Component {
       const { displaySets } = this.props;
       const displaySet = displaySets[0];
 
-      this.microscopyService.clearAnnotations();
+      // this.microscopyService.clearAnnotations(); // TODO: Causes the annotations to be removed on resize or sidebar opening. Why was it here?
 
       // loading SR
       if (displaySet.Modality === 'SR') {
