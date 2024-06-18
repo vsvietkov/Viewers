@@ -490,6 +490,22 @@ export default class MicroscopyService extends PubSubService {
     }
   }
 
+  rotateMap(viewportId, angle) {
+    const managedViewers = Array.from(this.managedViewers);
+    const managedViewer = managedViewers.find(mv => mv.viewportId === viewportId);
+    if (managedViewer) {
+      managedViewer.rotateMap(angle);
+    }
+  }
+
+  flipMapHorizontal(viewportId) {
+    const managedViewers = Array.from(this.managedViewers);
+    const managedViewer = managedViewers.find(mv => mv.viewportId === viewportId);
+    if (managedViewer) {
+      managedViewer.flipMapHorizontal();
+    }
+  }
+
   /**
    * Removes a RoiAnnotation instance from the managed annotations and reflects
    * its removal on all third-party viewers being managed

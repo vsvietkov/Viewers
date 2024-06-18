@@ -47,7 +47,7 @@
     "@cornerstonejs/codec-libjpeg-turbo-8bit": "^1.2.2",
     "@cornerstonejs/codec-openjpeg": "^1.2.2",
     "colormap": "^2.3",
-    "dicom-microscopy-viewer": "^0.44.0",
+    "dicom-microscopy-viewer": "git+https://github.com/vsvietkov/dicom-microscopy-viewer#POC",
     "dicomicc": "^0.1"
   }
 }

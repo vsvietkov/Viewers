@@ -1,6 +1,7 @@
 import { CommandsManager, ExtensionManager } from '@ohif/core';
 import styles from './utils/styles';
 import callInputDialog from './utils/callInputDialog';
+import MicroscopyViewportDownloadForm from "./components/MicroscopyViewportDownloadForm/MicroscopyViewportDownloadForm";
 
 export default function getCommandsModule({
   servicesManager,
@@ -59,7 +60,7 @@ export default function getCommandsModule({
         },
       ];
       if (
-        ['line', 'box', 'circle', 'point', 'polygon', 'freehandpolygon', 'freehandline'].indexOf(
+        ['line', 'box', 'circle', 'point', 'polygon', 'freehandpolygon', 'freehandline', 'arrow'].indexOf(
           toolName
         ) >= 0
       ) {
@@ -75,6 +76,19 @@ export default function getCommandsModule({
         if ('line' === toolName) {
           options.minPoints = 2;
           options.maxPoints = 2;
+          options.markup = 'measurement'; // calculate and show length or area
+        } else if ('arrow' === toolName) {
+          options.minPoints = 2;
+          options.maxPoints = 2;
+          options.marker = 'arrow'; // draw as arrow
+          options.markup = 'text'; // add text label to arrow
+          options.drawEndCallback = (callback: (value: string, action: string) => void) => {
+            callInputDialog({
+              uiDialogService,
+              defaultValue: '',
+              callback: callback,
+            });
+          };
         } else if ('point' === toolName) {
           delete options.styleOptions;
           delete options.vertexEnabled;
@@ -130,6 +144,28 @@ export default function getCommandsModule({
     toggleAnnotations: () => {
       microscopyService.toggleROIsVisibility();
     },
+    rotateViewportCW: () => {
+      const { activeViewportId } = viewportGridService.getState();
+      microscopyService.rotateMap(activeViewportId, 90);
+    },
+    flipViewportHorizontal: () => {
+      const { activeViewportId } = viewportGridService.getState();
+      microscopyService.flipMapHorizontal(activeViewportId);
+    },
+    showDownloadViewportModal: () => {
+      const { uiModalService } = servicesManager.services;
+
+      if (uiModalService) {
+        uiModalService.show({
+          content: MicroscopyViewportDownloadForm,
+          title: 'Download High Quality Image',
+          contentProps: {
+            onClose: uiModalService.hide,
+          },
+          containerDimensions: 'w-[50%] max-w-[700px]',
+        });
+      }
+    },
   };
 
   const definitions = {
@@ -147,6 +183,15 @@ export default function getCommandsModule({
     },
     toggleAnnotations: {
       commandFn: actions.toggleAnnotations,
+    },
+    rotateViewportCW: {
+      commandFn: actions.rotateViewportCW,
+    },
+    flipViewportHorizontal: {
+      commandFn: actions.flipViewportHorizontal,
+    },
+    showDownloadViewportModal: {
+      commandFn: actions.showDownloadViewportModal,
     },
   };
 

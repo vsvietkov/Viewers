@@ -126,6 +126,20 @@ const toolbarButtons = [
           ],
           evaluate: 'evaluate.microscopyTool',
         }),
+        ToolbarService.createButton({
+          id: 'arrow',
+          icon: 'tool-annotate',
+          label: 'Annotation',
+          tooltip: 'Arrow Annotate',
+          commands: [
+            {
+              commandName: 'setToolActive',
+              commandOptions: { toolName: 'arrow' },
+              context: 'MICROSCOPY',
+            },
+          ],
+          evaluate: 'evaluate.microscopyTool',
+        }),
       ],
     },
   },
@@ -143,6 +157,88 @@ const toolbarButtons = [
         },
       ],
       evaluate: 'evaluate.microscopyTool',
+    },
+  },
+  {
+    id: 'Capture',
+    uiType: 'ohif.radioGroup',
+    props: {
+      icon: 'tool-capture',
+      label: 'Capture',
+      commands: [
+        {
+          commandName: 'showDownloadViewportModal',
+          context: 'MICROSCOPY',
+        },
+      ],
+      evaluate: 'evaluate.action',
+    },
+  },
+  {
+    id: 'MoreTools',
+    uiType: 'ohif.splitButton',
+    props: {
+      groupId: 'MoreTools',
+      evaluate: 'evaluate.group.promoteToPrimaryIfCornerstoneToolNotActiveInTheList',
+      primary: ToolbarService.createButton({
+        id: 'RotateRight',
+        icon: 'tool-rotate-right',
+        label: 'Rotate Right',
+        tooltip: 'Rotate Right +90',
+        commands: [
+          {
+            commandName: 'rotateViewportCW',
+            context: 'MICROSCOPY',
+          },
+        ],
+        evaluate: 'evaluate.action',
+      }),
+      secondary: {
+        icon: 'chevron-down',
+        tooltip: 'More Tools',
+      },
+      items: [
+        ToolbarService.createButton({
+          id: 'RotateRight',
+          icon: 'tool-rotate-right',
+          label: 'Rotate Right',
+          tooltip: 'Rotate Right +90',
+          commands: [
+            {
+              commandName: 'rotateViewportCW',
+              context: 'MICROSCOPY',
+            },
+          ],
+          evaluate: 'evaluate.action',
+        }),
+        ToolbarService.createButton({
+          id: 'FlipHorizontal',
+          icon: 'tool-flip-horizontal',
+          label: 'Flip Horizontally',
+          tooltip: 'Flip Horizontally',
+          commands: [
+            {
+              commandName: 'flipViewportHorizontal',
+              context: 'MICROSCOPY',
+            },
+          ],
+          evaluate: 'evaluate.action',
+        }),
+        ToolbarService.createButton({
+          id: 'windowLevel',
+          icon: 'tool-window-level',
+          label: 'Window Level',
+          tooltip: 'Window Level',
+          commands: [
+            {
+              commandName: 'setToolActive',
+              commandOptions: { toolName: 'windowLevel' },
+              context: 'MICROSCOPY',
+            },
+          ],
+          evaluate: 'evaluate.microscopyTool',
+        }),
+      ],
     },
   },
   {

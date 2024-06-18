@@ -266,6 +266,14 @@ class ViewerManager extends PubSubService {
     this.viewer.toggleOverviewMap();
   }
 
+  rotateMap(angles) {
+    this.viewer.rotateMap(angles);
+  }
+
+  flipMapHorizontal() {
+    this.viewer.flipHorizontal();
+  }
+
   /**
    * Activates the viewer default interactions
    * @returns {void}
@@ -322,6 +330,8 @@ class ViewerManager extends PubSubService {
       dragZoom: activate =>
         activate ? 'activateDragZoomInteraction' : 'deactivateDragZoomInteraction',
       select: activate => (activate ? 'activateSelectInteraction' : 'deactivateSelectInteraction'),
+      windowLevel: activate =>
+        activate ? 'activateWindowLevelInteraction' : 'deactivateWindowLevelInteraction',
     };
 
     const availableInteractionsName = Object.keys(interactionsMap);
