@@ -134,7 +134,7 @@ export default function constructSR(metadata, { SeriesDescription, SeriesNumber 
         meaning: 'FREETEXT',
       }),
       /** Evaluations will conflict with current tracking identifier */
-      /** qualitativeEvaluations: evaluations, */
+      qualitativeEvaluations: evaluations, // We can filter them in loadSR. Not sure if this breaks something.
       measurements,
     });
     imagingMeasurements.push(...group);

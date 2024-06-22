@@ -38,7 +38,21 @@ export default async function loadSR(
     const roiSymbols = Object.getOwnPropertySymbols(roi);
     const _properties = roiSymbols.find(s => s.description === 'properties');
     const properties = roi[_properties];
-    properties['evaluations'] = [];
+
+    if (properties.evaluations) {
+      // As I understand, the only problem is that unique identifiers are
+      // the same as text evaluations. So, we can filter them out.
+      //
+      // Taking into account that originally they were cleared here, I assume
+      // that in order to keep the ROI getter function clear, we should modify the roi properties here.
+      properties.evaluations = properties.evaluations.filter(e => !e.TextValue.startsWith('ROI #'));
+
+      if (properties.evaluations.length > 0) {
+        properties.marker = 'arrow';
+        properties.markup = 'text';
+        properties.label = properties.evaluations[0].TextValue;
+      }
+    }
 
     managedViewer.addRoiGraphicWithLabel(roi, labels[i]);
   }
