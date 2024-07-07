@@ -1,7 +1,7 @@
 import { CommandsManager, ExtensionManager } from '@ohif/core';
 import styles from './utils/styles';
 import callInputDialog from './utils/callInputDialog';
-import MicroscopyViewportDownloadForm from "./components/MicroscopyViewportDownloadForm/MicroscopyViewportDownloadForm";
+import MicroscopyViewportDownloadForm from './components/MicroscopyViewportDownloadForm/MicroscopyViewportDownloadForm';
 
 export default function getCommandsModule({
   servicesManager,
@@ -156,6 +156,9 @@ export default function getCommandsModule({
       const { uiModalService } = servicesManager.services;
 
       if (uiModalService) {
+        // TODO: If there will be a way not to render the whole canvas from element, remove mini map closing and opening
+        document.querySelector('button[title="Overview"]').click(); // Close the mini map in order not to capture it in export
+
         uiModalService.show({
           content: MicroscopyViewportDownloadForm,
           title: 'Download High Quality Image',

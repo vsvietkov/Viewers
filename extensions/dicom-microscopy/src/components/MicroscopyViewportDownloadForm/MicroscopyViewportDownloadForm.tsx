@@ -42,6 +42,13 @@ const MicroscopyViewportDownloadForm = ({ onClose }) => {
   const hasError = Object.values(error).includes(true);
   const error_messages = { filename: 'The file name cannot be empty.' };
 
+  useEffect(() => {
+    return () => {
+      // Reopen the mini map on close
+      document.querySelector('button[title="Overview"]').click();
+    };
+  }, []);
+
   // Handle the preview canvas rendering
   useEffect(() => {
     previewRef.current.height = previewRef.current.width; // Make the preview square
