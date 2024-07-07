@@ -51,7 +51,11 @@ const MicroscopyViewportDownloadForm = ({ onClose }) => {
 
   // Handle the preview canvas rendering
   useEffect(() => {
-    previewRef.current.height = previewRef.current.width; // Make the preview square
+    // Keep the original size proportion
+    const aspectRatio = canvases[0].width / canvases[0].height;
+    previewRef.current.width = 500;
+    previewRef.current.height = previewRef.current.width / aspectRatio;
+
     const context = previewRef.current.getContext('2d');
 
     const updateCanvas = (sourceCanvas: HTMLCanvasElement) => {
