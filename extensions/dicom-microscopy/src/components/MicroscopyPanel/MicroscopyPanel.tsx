@@ -211,17 +211,20 @@ function MicroscopyPanel(props: IMicroscopyPanelProps) {
             dataSource.deleteStudyMetadataPromise(StudyInstanceUID);
           }
         }
+
         onSaveComplete({
-          title: 'SR Saved',
-          message: 'Measurements downloaded successfully',
+          title: 'Create Report',
+          message: 'Measurements saved successfully',
           type: 'success',
         });
+        DicomMetadataStore.addInstances([dataset], true);
       } else {
         console.error('Server unspecified');
       }
     } catch (error) {
+      console.error('Failed to save measurements', error);
       onSaveComplete({
-        title: 'SR Save Failed',
+        title: 'Create Report',
         message: error.message || error.toString(),
         type: 'error',
       });

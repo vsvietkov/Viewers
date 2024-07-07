@@ -53,7 +53,7 @@ const MicroscopyViewportDownloadForm = ({ onClose }) => {
   useEffect(() => {
     // Keep the original size proportion
     const aspectRatio = canvases[0].width / canvases[0].height;
-    previewRef.current.width = 500;
+    previewRef.current.width = 500; // TODO: Test with different screen sizes
     previewRef.current.height = previewRef.current.width / aspectRatio;
 
     const context = previewRef.current.getContext('2d');

@@ -19,12 +19,13 @@ export default function getPanelModule({
 }) {
   const wrappedMeasurementPanel = () => {
     const [{ activeViewportId, viewports }] = useViewportGrid();
+    const { uiNotificationService } = servicesManager.services;
 
     return (
       <MicroscopyPanel
         viewports={viewports}
         activeViewportId={activeViewportId}
-        onSaveComplete={() => {}}
+        onSaveComplete={uiNotificationService.show}
         onRejectComplete={() => {}}
         commandsManager={commandsManager}
         servicesManager={servicesManager}
