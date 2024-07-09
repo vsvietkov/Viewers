@@ -217,6 +217,7 @@ function MicroscopyPanel(props: IMicroscopyPanelProps) {
           message: 'Measurements saved successfully',
           type: 'success',
         });
+        // Show in left sidebar new instance
         DicomMetadataStore.addInstances([dataset], true);
       } else {
         console.error('Server unspecified');

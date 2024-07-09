@@ -144,15 +144,11 @@ export default function getCommandsModule({
     toggleAnnotations: () => {
       microscopyService.toggleROIsVisibility();
     },
-    rotateViewportCW: () => {
+    rotateMap: () => {
       const { activeViewportId } = viewportGridService.getState();
       microscopyService.rotateMap(activeViewportId, 90);
     },
-    flipViewportHorizontal: () => {
-      const { activeViewportId } = viewportGridService.getState();
-      microscopyService.flipMapHorizontal(activeViewportId);
-    },
-    showDownloadViewportModal: () => {
+    showImageCaptureModal: () => {
       const { uiModalService } = servicesManager.services;
 
       if (uiModalService) {
@@ -187,14 +183,11 @@ export default function getCommandsModule({
     toggleAnnotations: {
       commandFn: actions.toggleAnnotations,
     },
-    rotateViewportCW: {
-      commandFn: actions.rotateViewportCW,
+    rotateMap: {
+      commandFn: actions.rotateMap,
     },
-    flipViewportHorizontal: {
-      commandFn: actions.flipViewportHorizontal,
-    },
-    showDownloadViewportModal: {
-      commandFn: actions.showDownloadViewportModal,
+    showImageCaptureModal: {
+      commandFn: actions.showImageCaptureModal,
     },
   };
 

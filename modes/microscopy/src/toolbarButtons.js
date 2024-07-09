@@ -167,7 +167,7 @@ const toolbarButtons = [
       label: 'Capture',
       commands: [
         {
-          commandName: 'showDownloadViewportModal',
+          commandName: 'showImageCaptureModal',
           context: 'MICROSCOPY',
         },
       ],
@@ -187,7 +187,7 @@ const toolbarButtons = [
         tooltip: 'Rotate Right +90',
         commands: [
           {
-            commandName: 'rotateViewportCW',
+            commandName: 'rotateMap',
             context: 'MICROSCOPY',
           },
         ],
@@ -205,20 +205,7 @@ const toolbarButtons = [
           tooltip: 'Rotate Right +90',
           commands: [
             {
-              commandName: 'rotateViewportCW',
-              context: 'MICROSCOPY',
-            },
-          ],
-          evaluate: 'evaluate.action',
-        }),
-        ToolbarService.createButton({
-          id: 'FlipHorizontal',
-          icon: 'tool-flip-horizontal',
-          label: 'Flip Horizontally',
-          tooltip: 'Flip Horizontally',
-          commands: [
-            {
-              commandName: 'flipViewportHorizontal',
+              commandName: 'rotateMap',
               context: 'MICROSCOPY',
             },
           ],
