@@ -17,15 +17,15 @@ function _getReferencedFrameOfReferenceUID(naturalizedDataset) {
   const { ContentSequence } = naturalizedDataset;
 
   const imagingMeasurementsContentItem = ContentSequence.find(
-    ci => ci.ConceptNameCodeSequence.CodeValue === DCM_CODE_VALUES.IMAGING_MEASUREMENTS
+    ci => ci.ConceptNameCodeSequence[0].CodeValue === DCM_CODE_VALUES.IMAGING_MEASUREMENTS
   );
 
   const firstMeasurementGroupContentItem = toArray(
     imagingMeasurementsContentItem.ContentSequence
-  ).find(ci => ci.ConceptNameCodeSequence.CodeValue === DCM_CODE_VALUES.MEASUREMENT_GROUP);
+  ).find(ci => ci.ConceptNameCodeSequence[0].CodeValue === DCM_CODE_VALUES.MEASUREMENT_GROUP);
 
   const imageRegionContentItem = toArray(firstMeasurementGroupContentItem.ContentSequence).find(
-    ci => ci.ConceptNameCodeSequence.CodeValue === DCM_CODE_VALUES.IMAGE_REGION
+    ci => ci.ConceptNameCodeSequence[0].CodeValue === DCM_CODE_VALUES.IMAGE_REGION
   );
 
   return imageRegionContentItem.ReferencedFrameOfReferenceUID;

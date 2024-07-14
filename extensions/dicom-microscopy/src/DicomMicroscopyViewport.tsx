@@ -222,6 +222,8 @@ class DicomMicroscopyViewport extends Component {
       // for SR displaySet, let's load the actual image displaySet
       smDisplaySet = displaySet.getSourceDisplaySet();
     }
+    // TODO: For some reason, OHIF example has 6 objects in "others" array and my file has only one.
+    // However, the required data (maybe) is present in "7FDF1001" field
     console.log('Loading viewer metadata', smDisplaySet);
 
     await loadViewer(smDisplaySet.others);
@@ -245,7 +247,7 @@ class DicomMicroscopyViewport extends Component {
       const { displaySets } = this.props;
       const displaySet = displaySets[0];
 
-      this.microscopyService.clearAnnotations();
+      // this.microscopyService.clearAnnotations(); // TODO: Causes the annotations to be removed on resize or sidebar opening. Why was it here?
 
       // loading SR
       if (displaySet.Modality === 'SR') {

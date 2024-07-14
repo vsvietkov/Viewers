@@ -54,6 +54,7 @@ export default class DisplaySetService extends PubSubService {
   public init(extensionManager, SOPClassHandlerIds): void {
     this.extensionManager = extensionManager;
     this.SOPClassHandlerIds = SOPClassHandlerIds;
+    // TODO: Here should be a microscopy sop class handler included I suppose in order to use segmentation
     this.activeDisplaySets = [];
     this.activeDisplaySetsMap.clear();
   }

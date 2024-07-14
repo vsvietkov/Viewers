@@ -1,6 +1,7 @@
 import { CommandsManager, ExtensionManager } from '@ohif/core';
 import styles from './utils/styles';
 import callInputDialog from './utils/callInputDialog';
+import MicroscopyViewportDownloadForm from './components/MicroscopyViewportDownloadForm/MicroscopyViewportDownloadForm';
 
 export default function getCommandsModule({
   servicesManager,
@@ -59,7 +60,7 @@ export default function getCommandsModule({
         },
       ];
       if (
-        ['line', 'box', 'circle', 'point', 'polygon', 'freehandpolygon', 'freehandline'].indexOf(
+        ['line', 'box', 'circle', 'point', 'polygon', 'freehandpolygon', 'freehandline', 'arrow'].indexOf(
           toolName
         ) >= 0
       ) {
@@ -75,6 +76,19 @@ export default function getCommandsModule({
         if ('line' === toolName) {
           options.minPoints = 2;
           options.maxPoints = 2;
+          options.markup = 'measurement'; // calculate and show length or area
+        } else if ('arrow' === toolName) {
+          options.minPoints = 2;
+          options.maxPoints = 2;
+          options.marker = 'arrow'; // draw as arrow
+          options.markup = 'text'; // add text label to arrow
+          options.drawEndCallback = (callback: (value: string, action: string) => void) => {
+            callInputDialog({
+              uiDialogService,
+              defaultValue: '',
+              callback: callback,
+            });
+          };
         } else if ('point' === toolName) {
           delete options.styleOptions;
           delete options.vertexEnabled;
@@ -130,6 +144,27 @@ export default function getCommandsModule({
     toggleAnnotations: () => {
       microscopyService.toggleROIsVisibility();
     },
+    rotateMap: () => {
+      const { activeViewportId } = viewportGridService.getState();
+      microscopyService.rotateMap(activeViewportId, 90);
+    },
+    showImageCaptureModal: () => {
+      const { uiModalService } = servicesManager.services;
+
+      if (uiModalService) {
+        // TODO: If there will be a way not to render the whole canvas from element, remove mini map closing and opening
+        document.querySelector('button[title="Overview"]').click(); // Close the mini map in order not to capture it in export
+
+        uiModalService.show({
+          content: MicroscopyViewportDownloadForm,
+          title: 'Download High Quality Image',
+          contentProps: {
+            onClose: uiModalService.hide,
+          },
+          containerDimensions: 'w-[50%] max-w-[700px]',
+        });
+      }
+    },
   };
 
   const definitions = {
@@ -147,6 +182,12 @@ export default function getCommandsModule({
     },
     toggleAnnotations: {
       commandFn: actions.toggleAnnotations,
+    },
+    rotateMap: {
+      commandFn: actions.rotateMap,
+    },
+    showImageCaptureModal: {
+      commandFn: actions.showImageCaptureModal,
     },
   };
 
