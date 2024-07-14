@@ -15,7 +15,24 @@ function _getDisplaySetsFromSeries(instances, servicesManager, extensionManager)
     throw new Error('No instances were provided');
   }
 
+  // TODO: Remove after figuring out why zoom is impossible if there is only one instance
+  console.log('INSTANCES:', instances);
+
   const instance = instances[0];
+
+  // Workaround for invalid (?) only one test file
+  // TODO: Remove after fix of zoom in file with 1 instance
+  if (instances.length === 1 && instance['7FDF1001']) {
+    instance['7FDF1001'].forEach(element => {
+      let clonedInstance = Object.assign({}, instance);
+      for (let key in element) {
+        if (Object.hasOwn(element, key)) {
+          clonedInstance[key] = element[key];
+        }
+      }
+      instances.push(clonedInstance);
+    });
+  }
 
   let singleFrameInstance = instance;
   let currentFrames = +singleFrameInstance.NumberOfFrames || 1;
